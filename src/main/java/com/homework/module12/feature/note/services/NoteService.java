@@ -1,16 +1,18 @@
-package com.homework.module12.services;
+package com.homework.module12.feature.note.services;
 
-import com.homework.module12.entity.Note;
+import com.homework.module12.feature.note.entity.Note;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class NoteService {
-    private Map<Long, Note> noteMap;
+    private Map<Long, Note> noteMap = new LinkedHashMap<>();
+    {
+        noteMap.put(1L, new Note(1, "qwe", "qwert"));
+        noteMap.put(2L, new Note(2, "qwce", "qwcert"));
+    }
+
 
     public List<Note> listAll() {
         return new ArrayList<>(noteMap.values());
@@ -28,6 +30,7 @@ public class NoteService {
             throw new IllegalArgumentException();
         }
     }
+
 
     public void update(Note note) throws Exception {
         if (noteMap.replace(note.getId(), note) == null) {
