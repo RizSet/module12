@@ -8,10 +8,6 @@ import java.util.*;
 @Service
 public class NoteService {
     private Map<Long, Note> noteMap = new LinkedHashMap<>();
-    {
-        noteMap.put(1L, new Note(1, "qwe", "qwert"));
-        noteMap.put(2L, new Note(2, "qwce", "qwcert"));
-    }
 
 
     public List<Note> listAll() {
