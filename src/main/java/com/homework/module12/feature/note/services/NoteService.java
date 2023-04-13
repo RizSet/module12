@@ -1,46 +1,41 @@
 package com.homework.module12.feature.note.services;
 
+import com.homework.module12.feature.note.NoteRepository;
 import com.homework.module12.feature.note.entity.Note;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
+@RequiredArgsConstructor
 @Service
 public class NoteService {
-    private Map<Long, Note> noteMap = new LinkedHashMap<>();
-
+    private final NoteRepository noteRepository;
 
     public List<Note> listAll() {
-        return new ArrayList<>(noteMap.values());
+        return noteRepository.findAll();
     }
 
     public Note add(Note note) {
-        long key = new Random().nextLong();
-        note.setId(key);
-        noteMap.put(key, note);
-        return note;
+        return noteRepository.save(note);
     }
 
-    public void deleteById(long id) throws Exception {
-        if (noteMap.remove(id) == null) {
-            throw new IllegalArgumentException();
-        }
+    public void deleteById(long id) throws NoSuchElementException {
+        noteRepository.findById(id).orElseThrow();
+        noteRepository.deleteById(id);
     }
 
 
-    public void update(Note note) throws Exception {
-        if (noteMap.replace(note.getId(), note) == null) {
-            throw new IllegalArgumentException();
-        }
+    public void update(Note note) throws NoSuchElementException {
+        noteRepository.findById(note.getId()).orElseThrow();
+        noteRepository.save(note);
     }
 
-    public Note getById(long id) throws Exception {
-        Note note = noteMap.get(id);
-        if (note == null) {
-            throw new IllegalArgumentException();
-        }
-        return note;
+    public Note getById(long id) throws NoSuchElementException {
+        return noteRepository.findById(id).get();
     }
-
 
 }

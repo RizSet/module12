@@ -31,7 +31,7 @@ public class NoteController {
 
     @PostMapping("/create")
     public ModelAndView createNote (@RequestParam String noteTitle, @RequestParam String noteText) throws Exception {
-        noteService.add(new Note(0, noteTitle, noteText));
+        noteService.add(new Note(noteTitle, noteText));
         ModelAndView result = new ModelAndView(new RedirectView("./list"));
         result.addObject("listNote", noteService.listAll());
         return result;
